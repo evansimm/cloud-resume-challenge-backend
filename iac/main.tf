@@ -37,7 +37,7 @@ resource "aws_s3_bucket_versioning" "terraform_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state_crypto_conf" {
-  bucket        = aws_s3_bucket.terraform_state.bucket 
+  bucket = aws_s3_bucket.terraform_state.bucket
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
@@ -57,12 +57,15 @@ resource "aws_dynamodb_table" "terraform_locks" {
 
 resource "aws_lambda_function" "counter" {
   function_name = "createDynamoDBTable"
-  handler = "lambda_function.lambda_handler"
-  role    = "arn:aws:iam::715838961208:role/service-role/createDynamoDBTable-role-xvu8i9tt"
-  runtime = "python3.10"
-  filename = "lambda_function.zip"
+  handler       = "lambda_function.lambda_handler"
+  role          = "arn:aws:iam::715838961208:role/service-role/createDynamoDBTable-role-xvu8i9tt"
+  runtime       = "python3.10"
+  filename      = "lambda_function.zip"
 }
 
-resource "aws_s3_bucket" "host" {
-  bucket = "evan-crc-main"
+resource "aws_api_gateway_rest_api" "counter" {
+  name = "visit_count_api"
+  # description = "My API"
+
+  # Include additional settings here...
 }
